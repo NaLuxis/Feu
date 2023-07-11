@@ -36,6 +36,14 @@ def is_empty(target: str | list) -> bool:
         return False
 
 
+def is_equal(target: int, number_comparaison: int) -> bool:
+
+    if target == number_comparaison:
+        return True
+    else: 
+        return False
+
+
 ### Operation ###
 
 def operation(number_a: int, operator: str, number_b: int) -> int | float:
