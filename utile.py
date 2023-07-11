@@ -38,57 +38,38 @@ def is_empty(target: str | list) -> bool:
 
 ### Operation ###
 
-def addition(a: int, b: int) -> int:
-    return a + b
+def operation(number_a: int, operator: str, number_b: int) -> int | float:
+    
+    operate = {
+        "+" : lambda: number_a + number_b,
+        "-" : lambda: number_a - number_b,
+        "*" : lambda: number_a * number_b,
+        "/" : lambda: number_a / number_b,
+        "%" : lambda: number_a % number_b,
+    }
 
-
-def substraction(a: int, b: int) -> int:
-    return a - b
-
-
-def division(a: int, b: int) -> int | float:
-    return a / b
-
-
-def multiplication(a: int, b: int) -> int:
-    return a * b
-
-
-def modulo(a: int, b: int) -> int:
-    return a % b
+    if operator in operate:
+        return operate[operator]()
+    else:
+        raise ValueError(f"Operator {operator} not recognized")
 
 
 ### Error ###
 
-def incorect_argument_count(target: List[str], operator: str, number_comparaison: int) -> None:
+def incorrect_argument_count(target: List[str], operator: str, number_comparison: int) -> None:
 
-    match operator:
-        case "!=":
-            if len(target) != number_comparaison:
-                print("Error. Incorect argument count")
-                exit()
+    conditions = {
+        "!=": lambda: len(target) != number_comparison,
+        "<=": lambda: len(target) <= number_comparison,
+        ">=": lambda: len(target) >= number_comparison,
+        "==": lambda: len(target) == number_comparison,
+        "<": lambda: len(target) < number_comparison,
+        ">": lambda: len(target) > number_comparison,
+    }
 
-        case "<=":
-            if len(target) <= number_comparaison:
-                print("Error. Incorect argument count")
-                exit()
-
-        case ">=":
-            if len(target) >= number_comparaison:
-                print("Error. Incorect argument count")
-                exit()
-
-        case "==":
-            if len(target) == number_comparaison:
-                print("Error. Incorect argument count")
-                exit()
-        
-        case "<":
-            if len(target) < number_comparaison:
-                print("Error. Incorect argument count")
-                exit()
-
-        case ">":
-            if len(target) > number_comparaison:
-                print("Error. Incorect argument count")
-                exit()
+    if operator in conditions and conditions[operator]():
+        print("Error. Incorrect argument count")
+        exit()
+    elif operator not in conditions:
+        print("Error. Operator not recognized")
+        exit()
