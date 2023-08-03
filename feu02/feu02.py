@@ -32,7 +32,7 @@ def handle_error() -> None:
     incorrect_argument_count(sys.argv, ">=", 3)
 
     for element in sys.argv[1:]:
-        ... # regex pour savoir si tout mes arguments sont bien des fichier .txt
+        ... # regex pour savoir si tout mes arguments sont bien des fichier .txt ( \.(txt?)$ ) 
 
 ### Error ###
 
