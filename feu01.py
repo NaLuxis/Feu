@@ -2,8 +2,8 @@
 
 import sys
 
-from typing import List, Union
-from utile import incorrect_argument_count, operation
+from typing import List
+from utile import incorrect_argument_count, operation, is_string
 
 ### Function ###
 
@@ -21,32 +21,59 @@ def clean_space(expression_to_clean: str) -> str:
     return new_list
 
 
-def calculate_arithmetic_expression(expression_clean: List) -> Union[int, float]:
+def calcul_operation_priority(elements_list: List[str]) -> str:
+
+    priority_operator = ("*", "/", "%")
+    non_priority_operator = ("+", "-")
     
-    stack = []
+    index = 0
+    while index < len(elements_list):
+        if elements_list[index] in priority_operator:
+            res = operation(float(elements_list[index - 1]), elements_list[index], float(elements_list[index + 1]))
+            elements_list[index - 1:index + 2] = [str(res)]
+        else:
+            index += 1
+
+    index = 0
+    while index < len(elements_list):
+        if elements_list[index] in non_priority_operator:
+            res = operation(float(elements_list[index - 1]), elements_list[index], float(elements_list[index + 1]))
+            elements_list[index - 1:index + 2] = [str(res)]
+        else:
+            index += 1
+
+    return elements_list[0]
+
+
+def calculate_arithmetic_expression(expression_clean: List[str]) -> str:
+    
+    stack = [[]]
 
     for element in expression_clean:
         if element == "(":
             stack.append([])
-
         elif element == ")":
-            sub_result = ... # ici le calcul de mom sub stack
-
-            if stack:
-                stack[-1].append(sub_result)
-            else:
-                return sub_result
-        
+            sub_expr = stack.pop()
+            sub_result = calcul_operation_priority(sub_expr)
+            stack[-1].append(sub_result)
         else:
-            if stack:
-                stack[-1].append(element)
-            
+            stack[-1].append(element)
+  
+    return calcul_operation_priority(stack[0]) 
 
-    return stack
+
+def handle_error() -> None:
+
+    incorrect_argument_count(sys.argv, "!=", 2)
+
+    if not is_string(sys.argv[1]):
+        print("Error. Argument must be string")
+        exit()
+
 
 ### Error ###
 
-incorrect_argument_count(sys.argv, "!=", 2)
+handle_error()
 
 ### Parsing ###
 
