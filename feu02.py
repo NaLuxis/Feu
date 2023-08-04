@@ -2,7 +2,7 @@
 
 import sys
 
-from typing import List
+from typing import List, Tuple
 from utile import incorrect_argument_count
 
 ### Function ###
@@ -25,26 +25,34 @@ def read_file(file_name: str) -> List[List[str]]:
         return element
     
 
-def create_coords(element: List[List[str]]) -> List[List[int]]:
+def create_coords(element: List[List[str]]) -> List[Tuple[List[int],str]]:
     
-    coords_element= []
+    coords_and_value_element= []
     first_line = element[0][0]
     space = len(first_line) - len(first_line.lstrip(" "))
     
     for y_axis, line in enumerate(element):
         for x_axis, char in enumerate(line[0]):
-            coords_element.append([x_axis - space, y_axis])
+            coords_and_value_element.append([[x_axis - space, y_axis], char])
 
-    return coords_element
+    return coords_and_value_element
 
 
-def is_equal_char(shape_file_name) -> List[int]:
+def find_equal_shape(shape_file_name: str) -> List[int]:
     
-    shape_coords_list = create_coords(shape_file_name)
+    board_coords_list = create_coords(read_file("board.txt"))
+    shape_coords_list = create_coords(read_file(shape_file_name))
 
+    for coords_and_value in shape_coords_list:
+        if coords_and_value[0] == [0,0]:
+            shape_char = coords_and_value[1]
 
-def draw_shape(board_char_coords: List[int]):
-    ...
+    for coords_and_value in board_coords_list:
+        if coords_and_value[1] == shape_char:
+            board_char = coords_and_value[0]
+
+    
+
 
 
 def display_result():
@@ -70,10 +78,12 @@ def handle_error() -> None:
 
 ### Problem solving ###
 
-readed_file = read_file("board.txt")
+# readed_file = read_file("board.txt")
 
-element_with_coords = create_coords(readed_file)
+# element_with_coords = create_coords(readed_file)
+
+shape_is_equal_or_not = find_equal_shape("to_find.txt")
 
 ### Result ###
 
-print(element_with_coords)
+print(shape_is_equal_or_not)
