@@ -9,36 +9,38 @@ from utile import incorrect_argument_count
 
 def read_file(file_name: str) -> List[List[str]]:
     
-    my_file = f"/home/yoann/Documents/Feu/text/{file_name}"
+    my_file = f"text/{file_name}"
 
     with open(my_file, "r") as f:
         content = f.readlines()
 
         if not content:
-            print("Erreur. The file is empty.")
-            exit()
+            exit("Erreur. The file is empty.")
 
-        board = []
+        element = []
 
         for lines in content:
-            board.append([lines[:-1]])
+            element.append([lines[:-1]])
         
-        return board
+        return element
     
 
 def create_coords(element: List[List[str]]) -> List[List[int]]:
     
-    coords_board = []
+    coords_element= []
+    first_line = element[0][0]
+    space = len(first_line) - len(first_line.lstrip(" "))
     
     for y_axis, line in enumerate(element):
         for x_axis, char in enumerate(line[0]):
-            coords_board.append([x_axis, y_axis])
+            coords_element.append([x_axis - space, y_axis])
 
-    return coords_board
+    return coords_element
 
 
-def is_equal_char(board, shape) -> List[int]:
-    ...
+def is_equal_char(shape_file_name) -> List[int]:
+    
+    shape_coords_list = create_coords(shape_file_name)
 
 
 def draw_shape(board_char_coords: List[int]):

@@ -76,8 +76,6 @@ def incorrect_argument_count(target: List[str], operator: str, number_comparison
     }
 
     if operator in conditions and conditions[operator]():
-        print("Error. Incorrect argument count")
-        exit()
+        exit("Error. Incorrect argument count")
     elif operator not in conditions:
-        print("Error. Operator not recognized")
-        exit()
+        exit("Error. Operator not recognized")

@@ -67,8 +67,7 @@ def handle_error() -> None:
     incorrect_argument_count(sys.argv, "!=", 2)
 
     if not is_string(sys.argv[1]):
-        print("Error. Argument must be string")
-        exit()
+        exit("Error. Argument must be string")
 
 
 ### Error ###
